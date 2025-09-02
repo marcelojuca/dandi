@@ -159,7 +159,7 @@ export default function Playground() {
                     <div>
                       <h3 className="text-sm font-medium text-blue-900 mb-1">How it works</h3>
                       <p className="text-sm text-blue-800">
-                        Enter your API key to validate it against our database. If valid, you'll be redirected to a protected area where you can view your API key details.
+                        Enter your API key to validate it against our database. If valid, you&apos;ll be redirected to a protected area where you can view your API key details.
                       </p>
                     </div>
                   </div>
