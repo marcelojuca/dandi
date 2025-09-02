@@ -1,103 +1,175 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import Link from 'next/link';
+import Sidebar from '../components/Sidebar';
+import Notification from '../components/Notification';
+import PlanCard from '../components/PlanCard';
+import TopBar from '../components/TopBar';
+import APIKeyTable from '../components/APIKeyTable';
+import APIKeyModal from '../components/APIKeyModal';
+import ContactSection from '../components/ContactSection';
+import Footer from '../components/Footer';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { useApiKeys } from '../hooks/useApiKeys';
+import { useFormData } from '../hooks/useFormData';
+import { useModalState } from '../hooks/useModalState';
+import { useSidebar } from '../hooks/useSidebar';
+import { validateApiKeyForm } from '../utils/validation';
+
+export default function Dashboard() {
+  const { apiKeys, loading, createApiKey, updateApiKey, deleteApiKey } = useApiKeys();
+  const { formData, updateFormData, resetFormData, populateFormData, togglePermission } = useFormData();
+  const { 
+    showCreateForm, 
+    editingKey, 
+    viewingKey, 
+    isModalOpen, 
+    openCreateModal, 
+    openEditModal, 
+    openViewModal, 
+    closeAllModals 
+  } = useModalState();
+  const { sidebarVisible, toggleSidebar } = useSidebar();
+
+  const handleCreate = async (e) => {
+    e.preventDefault();
+    
+    const validationErrors = validateApiKeyForm(formData);
+    if (validationErrors.length > 0) {
+      window.showToastNotification(validationErrors.join(', '), 'error');
+      return;
+    }
+    
+    const result = await createApiKey(formData);
+    if (result.success) {
+      closeAllModals();
+      resetFormData();
+      window.showToastNotification('API key created successfully!', 'success');
+    } else {
+      window.showToastNotification(result.error, 'error');
+    }
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    
+    const validationErrors = validateApiKeyForm(formData);
+    if (validationErrors.length > 0) {
+      window.showToastNotification(validationErrors.join(', '), 'error');
+      return;
+    }
+    
+    const result = await updateApiKey(editingKey.id, formData);
+    if (result.success) {
+      closeAllModals();
+      resetFormData();
+      window.showToastNotification('API key updated successfully!', 'success');
+    } else {
+      window.showToastNotification(result.error, 'error');
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (confirm('Are you sure you want to delete this API key?')) {
+      const result = await deleteApiKey(id);
+      if (result.success) {
+        window.showToastNotification('API key deleted successfully!', 'success');
+      } else {
+        window.showToastNotification(result.error, 'error');
+      }
+    }
+  };
+
+  const handleEdit = (key) => {
+    populateFormData(key);
+    openEditModal(key);
+  };
+
+  const handleView = (key) => {
+    populateFormData(key);
+    openViewModal(key);
+  };
+
+  const handleModalClose = () => {
+    closeAllModals();
+    resetFormData();
+  };
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <div className="min-h-screen bg-gray-50 flex">
+      {/* Mobile Backdrop */}
+      {sidebarVisible && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          onClick={() => toggleSidebar()}
         />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      )}
+      
+      {/* Sidebar */}
+      {sidebarVisible && (
+        <div className="fixed md:relative z-50 md:z-auto">
+          <Sidebar />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      )}
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        <TopBar sidebarVisible={sidebarVisible} toggleSidebar={toggleSidebar} />
+
+        {/* Main Content Area */}
+        <div className="flex-1 p-6 space-y-6">
+          <PlanCard />
+
+          {/* API Keys Section */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-900">API Keys</h3>
+                <button
+                  onClick={openCreateModal}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                >
+                  +
+                </button>
+              </div>
+              <p className="text-gray-600 mt-2">
+                The key is used to authenticate your requests to the Research API. To learn more, see the{' '}
+                <Link href="/docs" className="text-blue-600 hover:underline">documentation page</Link>.
+              </p>
+            </div>
+            <APIKeyTable 
+              apiKeys={apiKeys}
+              onView={handleView}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          </div>
+
+          <ContactSection />
+        </div>
+
+        <Footer />
+      </div>
+
+      {/* Create/Edit/View Modal */}
+      <APIKeyModal
+        isOpen={isModalOpen}
+        showCreateForm={showCreateForm}
+        editingKey={editingKey}
+        viewingKey={viewingKey}
+        formData={formData}
+        onClose={handleModalClose}
+        onSubmit={editingKey ? handleUpdate : handleCreate}
+        onFormDataChange={updateFormData}
+        onTogglePermission={togglePermission}
+      />
+
+      {/* Notification Component */}
+      <Notification />
     </div>
   );
 }
