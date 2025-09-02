@@ -192,7 +192,7 @@ export default function APIKeyModal({
                 />
               )}
               <p className="text-xs text-gray-500 mt-2">
-                * If the combined usage of all your keys exceeds your plan&apos;'s limit, all requests will be rejected.
+                * If the combined usage of all your keys exceeds your plan&apos;s limit, all requests will be rejected.
               </p>
             </div>
 
