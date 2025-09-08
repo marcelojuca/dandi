@@ -25,8 +25,7 @@ export async function POST(request) {
     const { data, error } = await supabase
       .from('api_keys')
       .select('*')
-      .eq('key', apiKey)
-      .single();
+      .eq('key', apiKey);
 
     if (error) {
       console.error('Database error:', error);
@@ -36,21 +35,25 @@ export async function POST(request) {
       );
     }
 
-    if (!data) {
+    // Check if no API key was found
+    if (!data || data.length === 0) {
       return NextResponse.json(
         { valid: false, error: 'Invalid API key' },
         { status: 401 }
       );
     }
 
+    // Get the first (and should be only) API key
+    const apiKeyData = data[0];
+
     // API key is valid, return the key data (excluding the actual key for security)
-    const { key, ...apiKeyData } = data;
+    const { key, ...keyData } = apiKeyData;
     
     return NextResponse.json({
       valid: true,
       apiKeyData: {
-        ...apiKeyData,
-        key: data.key // Include the key for the protected page
+        ...keyData,
+        key: apiKeyData.key // Include the key for the protected page
       }
     });
 
