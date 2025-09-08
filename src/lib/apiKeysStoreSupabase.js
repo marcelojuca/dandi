@@ -45,15 +45,15 @@ export const updateApiKey = async (id, updates) => {
       .from('api_keys')
       .update(updates)
       .eq('id', id)
-      .select()
-      .single();
+      .select();
 
     if (error) {
       console.error('Error updating API key:', error);
       throw error;
     }
 
-    return data;
+    // Return the first (and should be only) updated record, or null if none found
+    return data && data.length > 0 ? data[0] : null;
   } catch (error) {
     console.error('Error in updateApiKey:', error);
     throw error;
@@ -66,15 +66,15 @@ export const deleteApiKey = async (id) => {
       .from('api_keys')
       .delete()
       .eq('id', id)
-      .select()
-      .single();
+      .select();
 
     if (error) {
       console.error('Error deleting API key:', error);
       throw error;
     }
 
-    return data;
+    // Return the first (and should be only) deleted record, or null if none found
+    return data && data.length > 0 ? data[0] : null;
   } catch (error) {
     console.error('Error in deleteApiKey:', error);
     throw error;
@@ -86,15 +86,15 @@ export const getApiKeyById = async (id) => {
     const { data, error } = await supabaseAdmin
       .from('api_keys')
       .select('*')
-      .eq('id', id)
-      .single();
+      .eq('id', id);
 
     if (error) {
       console.error('Error fetching API key by ID:', error);
       throw error;
     }
 
-    return data;
+    // Return the first (and should be only) API key, or null if none found
+    return data && data.length > 0 ? data[0] : null;
   } catch (error) {
     console.error('Error in getApiKeyById:', error);
     throw error;
