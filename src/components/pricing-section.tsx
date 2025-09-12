@@ -9,7 +9,8 @@ const plans = [
     description: "Perfect for getting started with repository analysis",
     features: ["5 repository analyses per month", "Basic insights and summaries", "Star tracking", "Community support"],
     cta: "Get Started Free",
-    popular: false,
+    popular: true,
+    comingSoon: false,
   },
   {
     name: "Pro",
@@ -24,7 +25,8 @@ const plans = [
       "API access",
     ],
     cta: "Start Pro Trial",
-    popular: true,
+    popular: false,
+    comingSoon: true,
   },
   {
     name: "Enterprise",
@@ -41,14 +43,15 @@ const plans = [
     ],
     cta: "Contact Sales",
     popular: false,
+    comingSoon: true,
   },
 ]
 
 export function PricingSection() {
   return (
-    <section id="pricing" className="py-20 px-4">
-      <div className="container">
-        <div className="text-center mb-16">
+    <section id="pricing" className="py-12 px-4">
+      <div className="container mx-auto">
+        <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold text-balance mb-4">Simple, Transparent Pricing</h2>
           <p className="text-xl text-muted-foreground text-balance max-w-2xl mx-auto">
             Choose the plan that fits your needs. Start free and upgrade as you grow.
@@ -61,12 +64,20 @@ export function PricingSection() {
               key={index}
               className={`relative bg-card border-border ${
                 plan.popular ? "ring-2 ring-primary shadow-lg scale-105" : ""
-              }`}
+              } ${plan.comingSoon ? "opacity-75" : ""}`}
             >
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                   <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium">
                     Most Popular
+                  </span>
+                </div>
+              )}
+
+              {plan.comingSoon && (
+                <div className="absolute -top-3 right-4">
+                  <span className="bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-medium">
+                    Coming Soon
                   </span>
                 </div>
               )}
@@ -96,8 +107,9 @@ export function PricingSection() {
                       ? "bg-primary text-primary-foreground hover:bg-primary/90"
                       : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                   }`}
+                  disabled={plan.comingSoon}
                 >
-                  {plan.cta}
+                  {plan.comingSoon ? "Coming Soon" : plan.cta}
                 </Button>
               </CardContent>
             </Card>

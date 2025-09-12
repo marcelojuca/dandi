@@ -4,6 +4,7 @@ import { Providers } from './providers'
 import { Header } from '../components/header'
 import { HeroSection } from '../components/hero-section'
 import { FeaturesSection } from '../components/features-section'
+import { ApiDemoSection } from '../components/api-demo-section'
 import { PricingSection } from '../components/pricing-section'
 import { TestimonialsSection } from '../components/testimonials-section'
 import { Footer } from '../components/Footer'
@@ -44,6 +45,7 @@ function HomeContent() {
       <main>
         <HeroSection />
         <FeaturesSection />
+        <ApiDemoSection />
         <PricingSection />
         <TestimonialsSection />
       </main>
@@ -59,4 +61,3 @@ export default function Home() {
     </Providers>
   )
 }
-

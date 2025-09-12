@@ -38,10 +38,10 @@ export default function Protected() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading...</p>
         </div>
       </div>
     );
@@ -52,7 +52,7 @@ export default function Protected() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-background flex">
       {/* Mobile Backdrop */}
       {sidebarVisible && (
         <div 
@@ -71,28 +71,28 @@ export default function Protected() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Top Bar */}
-        <div className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+        <div className="bg-card border-b border-border px-6 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-4">
             <button
               onClick={toggleSidebar}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="p-2 rounded-lg hover:bg-muted transition-colors"
               title={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
             >
               {sidebarVisible ? (
-                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               ) : (
-                <svg className="w-5 h-5 text-gray-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               )}
             </button>
-            <h1 className="text-2xl font-bold text-gray-900">Protected Area</h1>
+            <h1 className="text-2xl font-bold text-card-foreground">Protected Area</h1>
           </div>
           <button
             onClick={handleBackToPlayground}
-            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium transition-colors"
           >
             Back to Playground
           </button>
@@ -102,60 +102,60 @@ export default function Protected() {
         <div className="flex-1 p-6">
           <div className="max-w-4xl mx-auto">
             {/* Success Banner */}
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+            <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 mb-6">
               <div className="flex items-center space-x-3">
-                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <div>
-                  <h3 className="text-sm font-medium text-green-800">API Key Validated Successfully</h3>
-                  <p className="text-sm text-green-700">You have access to the protected area.</p>
+                  <h3 className="text-sm font-medium text-primary">API Key Validated Successfully</h3>
+                  <p className="text-sm text-primary/80">You have access to the protected area.</p>
                 </div>
               </div>
             </div>
 
             {/* API Key Details */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-              <div className="p-6 border-b border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900">API Key Details</h2>
-                <p className="text-gray-600 mt-1">View the details of your validated API key.</p>
+            <div className="bg-card rounded-xl shadow-sm border border-border">
+              <div className="p-6 border-b border-border">
+                <h2 className="text-xl font-bold text-card-foreground">API Key Details</h2>
+                <p className="text-muted-foreground mt-1">View the details of your validated API key.</p>
               </div>
               
               <div className="p-6 space-y-6">
                 {/* Key Name */}
                 <div>
-                  <label className="block text-sm font-medium text-black mb-2">
+                  <label className="block text-sm font-medium text-card-foreground mb-2">
                     Key Name
                   </label>
-                  <div className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900">
+                  <div className="w-full px-3 py-2 border border-border rounded-md bg-muted text-card-foreground">
                     {apiKeyData.name}
                   </div>
                 </div>
 
                 {/* Description */}
                 <div>
-                  <label className="block text-sm font-medium text-black mb-2">
+                  <label className="block text-sm font-medium text-card-foreground mb-2">
                     Description
                   </label>
-                  <div className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900 min-h-[80px]">
+                  <div className="w-full px-3 py-2 border border-border rounded-md bg-muted text-card-foreground min-h-[80px]">
                     {apiKeyData.description || 'No description provided'}
                   </div>
                 </div>
 
                 {/* Key Type */}
                 <div>
-                  <label className="block text-sm font-medium text-black mb-2">
+                  <label className="block text-sm font-medium text-card-foreground mb-2">
                     Key Type
                   </label>
                   <div className="flex items-center space-x-3">
                     <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
                       apiKeyData.key_type === 'production' 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-blue-100 text-blue-800'
+                        ? 'bg-primary/10 text-primary' 
+                        : 'bg-accent/10 text-accent'
                     }`}>
                       {apiKeyData.key_type === 'production' ? 'Production' : 'Development'}
                     </span>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm text-muted-foreground">
                       {apiKeyData.key_type === 'production' 
                         ? 'Rate limited to 1,000 requests/minute' 
                         : 'Rate limited to 100 requests/minute'
@@ -166,26 +166,26 @@ export default function Protected() {
 
                 {/* Permissions */}
                 <div>
-                  <label className="block text-sm font-medium text-black mb-3">
+                  <label className="block text-sm font-medium text-card-foreground mb-3">
                     Permissions
                   </label>
                   <div className="grid grid-cols-2 gap-3">
                     {['create', 'read', 'edit', 'delete', 'admin'].map((permission) => (
                       <div key={permission} className={`flex items-center p-3 border rounded-lg ${
                         apiKeyData.permissions && apiKeyData.permissions.includes(permission)
-                          ? 'border-blue-500 bg-blue-50' 
-                          : 'border-gray-200 bg-gray-50'
+                          ? 'border-primary bg-primary/10' 
+                          : 'border-border bg-muted'
                       }`}>
                         <div className={`w-4 h-4 rounded border-2 mr-3 ${
                           apiKeyData.permissions && apiKeyData.permissions.includes(permission)
-                            ? 'border-blue-500 bg-blue-500' 
-                            : 'border-gray-300'
+                            ? 'border-primary bg-primary' 
+                            : 'border-border'
                         }`}>
                           {apiKeyData.permissions && apiKeyData.permissions.includes(permission) && (
                             <div className="w-2 h-2 bg-white rounded-full mx-auto mt-0.5"></div>
                           )}
                         </div>
-                        <span className="text-sm font-medium text-gray-900 capitalize">
+                        <span className="text-sm font-medium text-card-foreground capitalize">
                           {permission}
                         </span>
                       </div>
@@ -195,24 +195,24 @@ export default function Protected() {
 
                 {/* Monthly Usage Limit */}
                 <div>
-                  <label className="block text-sm font-medium text-black mb-2">
+                  <label className="block text-sm font-medium text-card-foreground mb-2">
                     Monthly Usage Limit
                   </label>
                   <div className="flex items-center space-x-3">
                     <div className={`w-4 h-4 rounded border-2 ${
                       apiKeyData.limit_usage 
-                        ? 'border-blue-500 bg-blue-500' 
-                        : 'border-gray-300'
+                        ? 'border-primary bg-primary' 
+                        : 'border-border'
                     }`}>
                       {apiKeyData.limit_usage && (
                         <div className="w-2 h-2 bg-white rounded-full mx-auto mt-0.5"></div>
                       )}
                     </div>
-                    <span className="text-sm text-gray-900">
+                    <span className="text-sm text-card-foreground">
                       {apiKeyData.limit_usage ? 'Limited' : 'Unlimited'}
                     </span>
                     {apiKeyData.limit_usage && (
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-muted-foreground">
                         ({apiKeyData.monthly_limit || 1000} requests/month)
                       </span>
                     )}
@@ -221,13 +221,13 @@ export default function Protected() {
 
                 {/* API Key (Masked) */}
                 <div>
-                  <label className="block text-sm font-medium text-black mb-2">
+                  <label className="block text-sm font-medium text-card-foreground mb-2">
                     API Key
                   </label>
-                  <div className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-900 font-mono">
+                  <div className="w-full px-3 py-2 border border-border rounded-md bg-muted text-card-foreground font-mono">
                     {apiKeyData.key ? `${apiKeyData.key.substring(0, 8)}************************` : 'N/A'}
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-muted-foreground mt-1">
                     For security reasons, the full API key is not displayed.
                   </p>
                 </div>

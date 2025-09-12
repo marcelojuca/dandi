@@ -1,6 +1,6 @@
 export default function PlanCard() {
   return (
-    <div className="bg-gradient-to-r from-purple-500 to-orange-500 rounded-xl p-6 text-white">
+    <div className="bg-gradient-to-r from-primary to-accent rounded-xl p-6 text-white">
       <div className="flex justify-between items-start mb-4">
         <div>
           <p className="text-sm font-medium opacity-90">CURRENT PLAN</p>

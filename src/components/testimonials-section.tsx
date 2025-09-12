@@ -10,13 +10,6 @@ const testimonials = [
     rating: 5,
   },
   {
-    name: "Marcus Rodriguez",
-    role: "Senior Developer at TechCorp",
-    content:
-      "The PR analysis feature helps our team stay on top of important changes across all the open source projects we depend on.",
-    rating: 5,
-  },
-  {
     name: "Emily Johnson",
     role: "DevOps Engineer",
     content:
@@ -27,16 +20,16 @@ const testimonials = [
 
 export function TestimonialsSection() {
   return (
-    <section className="py-20 px-4 bg-muted/30">
-      <div className="container">
-        <div className="text-center mb-16">
+    <section className="py-12 px-4 bg-muted/30">
+      <div className="container mx-auto">
+        <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold text-balance mb-4">Loved by Developers Worldwide</h2>
           <p className="text-xl text-muted-foreground text-balance max-w-2xl mx-auto">
             See what the open source community is saying about Dandi GitHub Analyzer.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {testimonials.map((testimonial, index) => (
             <Card key={index} className="bg-card border-border">
               <CardContent className="p-6">
