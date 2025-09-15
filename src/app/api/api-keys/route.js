@@ -1,6 +1,6 @@
 
 import { NextResponse } from 'next/server';
-import { requireAuth } from '../../../lib/auth-helpers';
+import { requireAuth } from '../../../lib/authHelpers';
 import { supabaseAdmin } from '../../../lib/supabase';
 
 // GET /api/api-keys - Fetch all API keys for authenticated user
